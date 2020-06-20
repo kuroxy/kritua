@@ -23,7 +23,7 @@ nums = []
 for i in range(0, 10):
     nums.append(pygame.image.load(f"5x5font\\{i}.png"))
 #   camera
-camera = [0, 0]
+camerapos = [0, 0]
 
 #   player
 p1 = Player((30, 30), 20, 1.4)
@@ -51,9 +51,9 @@ while True:
     #       rendering
     renDis.fill((0, 0, 0))
 
-    ter.drawchunk(renDis, camera, SCREENSIZE)
+    ter.drawchunk(renDis, camerapos, SCREENSIZE)
 
-    p1.draw(renDis, dt, camera)
+    p1.draw(renDis, dt, camerapos)
     #   render fps overlay
     fps = clock.get_fps()
     if fps != 0:

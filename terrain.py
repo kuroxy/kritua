@@ -29,19 +29,15 @@ class terrain(object):
             pos = (chunk.split("."))
             pos[0] = int(pos[0])
             pos[1] = int(pos[1])
-            if pos[0]+self.loadedpos[0]-camerapos[0]-25 > windowsize[0]:
-                print("1")
+            if pos[0]*40 + self.loadedpos[0] - camerapos[0] > windowsize[0]:
                 continue
-            if pos[0]+self.loadedpos[0]-camerapos[0] < 0:
-                print("2")
+            if pos[0]*40 + self.loadedpos[0]-camerapos[0]+40 < 0:
                 continue
 
-            if pos[1]+self.loadedpos[1]-camerapos[1]-25 > windowsize[1]:
-                print("3")
+            if pos[1]*40 + self.loadedpos[1] - camerapos[1] > windowsize[1]:
                 continue
-            if pos[0]+self.loadedpos[1]-camerapos[1] < 0:
-                print("4")
+            if pos[0]*40+self.loadedpos[1]-camerapos[1]+40 < 0:
                 continue
 
             for i in range(len(self.loadedlevel[chunk])):
-                surface.blit(self.tiles[int(self.loadedlevel[chunk][i])], (i%5*8 - camerapos[0] + pos[0]*40, int(i/5)*8- camerapos[1] + pos[1]*40))
+                surface.blit(self.tiles[int(self.loadedlevel[chunk][i])], (i%5*8 - camerapos[0] + self.loadedpos[0] + pos[0]*40, int(i/5)*8- camerapos[1] + self.loadedpos[1] + pos[1]*40))

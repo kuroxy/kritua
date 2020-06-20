@@ -8,7 +8,7 @@ pygame.init()
 
 SCREENSIZE = (256, 192)
 WINSIZE = [960, 720]
-MAXFPS = 10000
+MAXFPS = 100000
 
 renDis = pygame.Surface(SCREENSIZE)
 winDis = pygame.display.set_mode(WINSIZE)
@@ -23,7 +23,7 @@ nums = []
 for i in range(0, 10):
     nums.append(pygame.image.load(f"5x5font\\{i}.png"))
 #   camera
-camera = [-10, 0]
+camera = [0, 0]
 
 #   player
 p1 = Player((30, 30), 20, 1.4)
@@ -57,7 +57,7 @@ while True:
     #   render fps overlay
     fps = clock.get_fps()
     if fps != 0:
-        if averagefps == None:
+        if averagefps is None:
             averagefps = fps
         averagefps = (averagefps+fps)/2
 

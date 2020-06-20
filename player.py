@@ -8,8 +8,8 @@ class Player:
         self.animspeed = animspeed
         self.collisionbox = pygame.Rect(self.pos, (8, 8))
         #   Player animations
-        self.spr1 = pygame.image.load("player1.png")
-        self.spr2 = pygame.image.load("player2.png")
+        self.spr1 = pygame.image.load("entities\\player1.png")
+        self.spr2 = pygame.image.load("entities\\player2.png")
         self.animcount = 0
         self.anim = 0
 

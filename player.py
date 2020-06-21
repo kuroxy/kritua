@@ -1,4 +1,5 @@
 import pygame
+from math import floor
 
 
 class Player:
@@ -6,14 +7,31 @@ class Player:
         self.pos = pygame.Vector2(startlocation)
         self.speed = speed
         self.animspeed = animspeed
-        self.collisionbox = pygame.Rect(self.pos, (8, 8))
         #   Player animations
         self.spr1 = pygame.image.load("entities\\player1.png")
         self.spr2 = pygame.image.load("entities\\player2.png")
         self.animcount = 0
         self.anim = 0
 
-    def move(self, dt, keyinput):
+    def move(self, dt, keyinput, map):
+        posch = self.movement(dt, keyinput)
+
+        if self.checkcollisions(self.pos+posch, map) == 1:
+            pos = self.pos+posch
+            if posch.x > 0:
+                self.pos.x = floor(pos[0]/8)-8
+            elif posch.x < 0:
+                self.pos.x = floor(pos[0]/8)+8
+            
+            if self.checkcollisions(self.pos+posch, map) == 1:
+                if posch.y > 0:
+                    self.pos.y = floor(pos[0]/8)-8
+                elif posch.y < 0:
+                    self.pos.y = floor(pos[0]/8)+8
+        else:
+            self.pos += posch
+
+    def movement(self, dt, keyinput):
         dir = pygame.Vector2(0, 0)
         #   userinput
         if keyinput[pygame.K_w]:
@@ -28,9 +46,19 @@ class Player:
         if dir != (0, 0):
             dir.normalize_ip()
         # change pos of player and collisionbox
-        self.pos += dir * self.speed * dt
-        self.collisionbox.x = self.pos.x
-        self.collisionbox.y = self.pos.y
+        return (dir * self.speed * dt)
+
+    def checkcollisions(self, pos, map):
+        chunkx = floor(floor(pos[0]/8)/25)
+        chunky = floor(floor(pos[1]/8)/25)
+        posx = floor(pos[0]/8) - chunkx*5
+        posy = floor(pos[1]/8) - chunky*5
+        if map[f"{chunkx}.{chunky}"][posx+posy*5] == 0:
+            return 0
+        elif map[f"{chunkx}.{chunky}"][posx+posy*5] == 1:
+            print("colliding")
+            return 1
+        return 2
 
     def draw(self, surface, dt, camerapos):
         self.animcount += dt * self.animspeed
@@ -40,7 +68,7 @@ class Player:
             if self.anim > 1:
                 self.anim = 0
 
-        drawpos = self.collisionbox
+        drawpos = self.pos
         drawpos.x - camerapos[0]
         drawpos.y - camerapos[1]
 

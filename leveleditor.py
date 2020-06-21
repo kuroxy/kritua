@@ -105,7 +105,7 @@ while True:
             print("opening level (path\\\\filename \".json\")")
             name = input()
             if name:
-                ter.loadlevel(name, (0, 0))
+                ter.loadlevel(name)
     else:
         cameraposfloat = cameramovement(keys, cameraposfloat, dt)
         camerapos = [int(cameraposfloat[0]), int(cameraposfloat[1])]
@@ -116,7 +116,6 @@ while True:
     #   mouse down draw tile on that location
     if mousebuttons[0]:
         mousepos = pygame.mouse.get_pos()
-        posx = floor((mousepos[0]-camerapos[0])/(8*SCALING[0]))
         posx = floor((mousepos[0]/SCALING[0] + camerapos[0])/8)
         posy = floor((mousepos[1]/SCALING[1] + camerapos[1])/8)
         ter.settile((posx, posy), selectedtile)

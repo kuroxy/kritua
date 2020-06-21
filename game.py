@@ -26,11 +26,11 @@ for i in range(0, 10):
 camerapos = [0, 0]
 
 #   player
-p1 = Player((30, 30), 20, 1.4)
+p1 = Player((16, 16), 20, 1.4)
 
 #   Terrain
 ter = terrain("tiles\\")
-ter.loadlevel("levels\\lv1.json", (0, 0))
+ter.loadlevel("levels\\lv1.json")
 
 
 #   main loop
@@ -46,7 +46,7 @@ while True:
 
     keys = pygame.key.get_pressed()
 
-    p1.move(dt, keys)
+    p1.move(dt, keys, ter.loadedlevel)
 
     #       rendering
     renDis.fill((0, 0, 0))

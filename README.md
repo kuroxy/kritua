@@ -1,14 +1,15 @@
 # kritua
 
-Controls
---game.py
-Player movement wasd
+## Controls 
 
---leveleditor.py
-Camera movement wasd
-change tile type scrollwheel
-Open level shift+o (look at python terminal)
-Save level shift+s (look at python terminal)
+### game.py
+  - Player movement wasd
 
-Tileset:
+### leveleditor.py
+  - Camera movement wasd
+  - change tile type scrollwheel
+  - Open level shift+o (look at python terminal)
+  - Save level shift+s (look at python terminal)
+
+## Tileset:
 https://scut.itch.io/7drl-tileset-2018

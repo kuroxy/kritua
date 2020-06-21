@@ -30,7 +30,7 @@ p1 = Player((30, 30), 20, 1.4)
 
 #   Terrain
 ter = terrain("tiles\\")
-ter.loadchunk("levels\\lv1.json", (0, 0))
+ter.loadlevel("levels\\lv1.json", (0, 0))
 
 
 #   main loop

@@ -50,7 +50,7 @@ def cameramovement(keyinput, cameraposfloat, dt):
 
 
 #   Terrain
-ter = terrain("tiles\\")
+ter = terrain("tiles\\", "levels")
 ter.createnewlevel()
 #   ter.loadlevel("levels\\lv1.json", (0, 0))
 
@@ -97,12 +97,12 @@ while True:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LCTRL]:
         if skeyup:
-            print("Saving level as (path\\\\filename \".json\")")
+            print("Saving level as")
             name = input()
             if name:
                 ter.savelevel(name)
         if okeyup:
-            print("opening level (path\\\\filename \".json\")")
+            print("opening level")
             name = input()
             if name:
                 ter.loadlevel(name)
@@ -112,18 +112,28 @@ while True:
 
     #   mouse events
     mousebuttons = pygame.mouse.get_pressed()
+    mousepos = pygame.mouse.get_pos()
+    posx = floor((mousepos[0]/SCALING[0] + camerapos[0])/8)
+    posy = floor((mousepos[1]/SCALING[1] + camerapos[1])/8)
 
-    #   mouse down draw tile on that location
-    if mousebuttons[0]:
-        mousepos = pygame.mouse.get_pos()
-        posx = floor((mousepos[0]/SCALING[0] + camerapos[0])/8)
-        posy = floor((mousepos[1]/SCALING[1] + camerapos[1])/8)
-        ter.settile((posx, posy), selectedtile)
+    # if holding Lshift edit collisionmap instead of tilemap
+    if keys[pygame.K_LSHIFT]:
+        if mousebuttons[0]:
+            ter.setcollision((posx, posy), 1)
+
+        if mousebuttons[2]:
+            ter.setcollision((posx, posy), 0)
+    else:
+        if mousebuttons[0]:
+            ter.settile((posx, posy), selectedtile)
 
     #   rendering
     renDis.fill((0, 0, 0))
 
     ter.drawchunk(renDis, camerapos, SCREENSIZE)
+
+    if keys[pygame.K_LSHIFT]:
+        ter.drawcollision(renDis, camerapos, SCREENSIZE)
 
     #   render fps overlay
     fps = clock.get_fps()

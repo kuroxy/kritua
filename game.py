@@ -3,6 +3,7 @@ import sys
 from player import Player
 from terrain import terrain
 
+
 #   initialize pygame
 pygame.init()
 
@@ -26,11 +27,11 @@ for i in range(0, 10):
 camerapos = [0, 0]
 
 #   player
-p1 = Player((1, 1), .1, 1.4)
+p1 = Player((10, 10), .1, 1.4)
 
 #   Terrain
-ter = terrain("tiles\\")
-ter.loadlevel("levels\\chad.json")
+ter = terrain("tiles\\", "levels")
+ter.loadlevel("tjeerd")
 
 
 #   main loop
@@ -44,7 +45,7 @@ while True:
             sys.exit()
             #       physics
         if event.type == pygame.KEYDOWN:
-            p1.move(event, ter.loadedlevel)
+            p1.move(event, ter.loadedcollisionmap)
 
     #       rendering
     renDis.fill((0, 0, 0))

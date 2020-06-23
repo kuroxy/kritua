@@ -19,11 +19,9 @@ class Player:
         chunky = floor(newpos.y/5)
         x = newpos.x - chunkx*5
         y = newpos.y - chunky*5
-        print(f"[{chunkx}.{chunky}][{int(y*5+x)}]")
         if map[f"{chunkx}.{chunky}"][int(y*5+x)] == 0:
             self.pos = newpos
-        else:
-            print("collided")
+        #    ifnot it is colliding
 
     def movement(self, event):
         dir = pygame.Vector2(0, 0)

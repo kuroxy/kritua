@@ -26,27 +26,25 @@ for i in range(0, 10):
 camerapos = [0, 0]
 
 #   player
-p1 = Player((30, 30), 20, 1.4)
+p1 = Player((1, 1), .1, 1.4)
 
 #   Terrain
 ter = terrain("tiles\\")
-ter.loadlevel("levels\\lv1.json", (0, 0))
+ter.loadlevel("levels\\chad.json")
 
 
 #   main loop
 while True:
+    dt = clock.tick(MAXFPS) / 1000.0
+    p1.cooldown(dt)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             print(f"averagefps = {averagefps}")
             pygame.quit()
             sys.exit()
-
-    #       physics
-    dt = clock.tick(MAXFPS) / 1000.0
-
-    keys = pygame.key.get_pressed()
-
-    p1.move(dt, keys)
+            #       physics
+        if event.type == pygame.KEYDOWN:
+            p1.move(event, ter.loadedlevel)
 
     #       rendering
     renDis.fill((0, 0, 0))

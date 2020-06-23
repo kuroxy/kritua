@@ -5,50 +5,48 @@ from math import floor
 
 
 class terrain(object):
-    def __init__(self, tilespath):
+    def __init__(self, path):
         self.tiles = []
-        for name in range(len(os.listdir(tilespath))):
-            self.tiles.append(pygame.image.load(f"{tilespath}{name}.png").convert())
+        for n in range(len(os.listdir(path))):
+            try:
+                self.tiles.append(pygame.image.load(f"{path}{n}.png").convert())
+            except Exception as e:
+                raise e
 
         self.loadedlevel = None
-        self.loadedpos = (0, 0)
+        self.levelcollision = None
 
-    def loadlevel(self, path, pos):
-        self.loadedpos = pos
-        f = open(path, "r")
+    def loadlevel(self, levelpath):
+        f = open(levelpath, "r")
         self.loadedlevel = json.loads(f.read())
         f.close()
-        print(self.loadedlevel)
+
+# TODO: levelcollision
 
     def drawchunk(self, surface, camerapos, windowsize):
-        if self.loadedpos[0]-camerapos[0] > windowsize[0]:
-            return
-        if self.loadedpos[1]-camerapos[1] > windowsize[1]:
-            return
 
         for chunk in self.loadedlevel:
             pos = (chunk.split("."))
             pos[0] = floor(float(pos[0]))
             pos[1] = floor(float(pos[1]))
-            if pos[0]*40 + self.loadedpos[0] - camerapos[0] > windowsize[0]:
+            if pos[0]*40 - camerapos[0] > windowsize[0]:
                 continue
-            if pos[0]*40 + self.loadedpos[0]-camerapos[0] + 40 < 0:
+            if pos[0]*40 - camerapos[0] + 40 < 0:
                 continue
 
-            if pos[1]*40 + self.loadedpos[1] - camerapos[1] > windowsize[1]:
+            if pos[1]*40 - camerapos[1] > windowsize[1]:
                 continue
-            if pos[1]*40+self.loadedpos[1]-camerapos[1]+40 < 0:
+            if pos[1]*40 - camerapos[1] + 40 < 0:
                 continue
 
             for i in range(len(self.loadedlevel[chunk])):
                 dpos = [0, 0]
-                dpos[0] = i % 5*8-camerapos[0]+self.loadedpos[0]+pos[0]*40
-                dpos[1] = floor(i/5)*8-camerapos[1]+self.loadedpos[1]+pos[1]*40
-                surface.blit(self.tiles[int(self.loadedlevel[chunk][i])], dpos)
+                dpos[0] = i % 5*8-camerapos[0]+pos[0]*40
+                dpos[1] = floor(i/5)*8-camerapos[1]+pos[1]*40
+                surface.blit(self.tiles[self.loadedlevel[chunk][i]], dpos)
 
     def createnewlevel(self):
         self.loadedlevel = {}
-        self.loadedpos = (0, 0)
         print("creating empty level")
 
     def savelevel(self, filename):

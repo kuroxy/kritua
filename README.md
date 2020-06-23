@@ -1,6 +1,6 @@
 # kritua
 
-## Controls 
+## Controls
 
 ### game.py
   - Player movement wasd

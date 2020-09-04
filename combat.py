@@ -46,7 +46,7 @@ actionchart = {"light" : {"light": "11", "heavy" : "12", "block" : "10", "push":
 
 def getdamage(obj, type):   # 1 == light 2 = heavy attack
     dm = obj.attack * type
-    if obj.isStunned:
+    if obj.stunnedtime > 0:
         dm*=.5
     return math.floor(dm)
 
@@ -67,7 +67,7 @@ def executeaction(executer,receiver,type):
 
     elif type == "3":
         print("The {0} got stunned".format(receiver.type))
-        receiver.isStunned = STUNTIME
+        receiver.stunnedtime = STUNTIME
 
     elif type == "4":
         print("The {0} escaped".format(executer.type))
@@ -85,7 +85,11 @@ def action(playerobj, enemyobj):
 
     outcome = actionchart[playerobj.action][enemyobj.action]
     paction = outcome[0]
+
     eaction = outcome[1]
+    print("Player action : {0}".format(playerobj.action))
+    print("Enemy action : {0}".format(enemyobj.action))
+
     executeaction(playerobj, enemyobj, paction)
     executeaction(enemyobj, playerobj, eaction)
 
@@ -93,9 +97,14 @@ def action(playerobj, enemyobj):
     print("The {0} has {1} health left".format(enemyobj.type, enemyobj.health))
 
 
-def getplayeraction():
+def getplayeraction(actions):
     paction = None
+    print("Actions are {0}".format(str(actions)))
     while True:
+        paction = input()
+        if paction in actions:
+            return paction
+        print("That is no valid command")
 
 
 class player(object):
@@ -125,14 +134,25 @@ class enemy(object):
         self.attack = att
 
         # modifiers
-        self.stunnedtime = False
+        self.stunnedtime = 0
 
         #fighting
         self.action = None
         self.enemy = None
 
     def randomattack(self):
-        self.action random.choice(attacktypes)
+        self.action = random.choice(enemy.attacktypes)
 
+#
+p1 = player(10,1)
+e1 = enemy(10,1)
+
+# now fihgting
+p1.enemy = e1
+e1.enemy = p1
 
 while True:
+    if p1.enemy:
+        p1.action = getplayeraction(["light", "heavy", "block","push", "detect"])
+        e1.randomattack()
+        action(p1,e1)
